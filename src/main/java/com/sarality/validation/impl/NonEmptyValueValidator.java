@@ -3,7 +3,7 @@ package com.sarality.validation.impl;
 import android.text.TextUtils;
 
 import com.sarality.form.FormField;
-import com.sarality.form.FormFieldData;
+import com.sarality.form.FormData;
 import com.sarality.validation.FieldValidator;
 
 /**
@@ -20,11 +20,11 @@ public class NonEmptyValueValidator implements FieldValidator {
   }
 
   public NonEmptyValueValidator(FormField field) {
-    this(field.getFieldId());
+    this(field.getViewId());
   }
 
   @Override
-  public boolean isValid(FormFieldData fieldData) {
+  public boolean isValid(FormData fieldData) {
     String value = fieldData.getString(fieldId);
     return !TextUtils.isEmpty(value);
   }

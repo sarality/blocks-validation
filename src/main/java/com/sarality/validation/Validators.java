@@ -3,7 +3,7 @@ package com.sarality.validation;
 import android.app.Activity;
 
 import com.sarality.form.FormField;
-import com.sarality.form.FormFieldData;
+import com.sarality.form.FormData;
 import com.sarality.validation.error.ErrorMessage;
 import com.sarality.validation.error.ErrorRenderer;
 
@@ -22,7 +22,7 @@ public class Validators {
   private final Map<Integer, List<FieldValidatorWrapper>> validatorListMap = new HashMap<>();
 
   public Validators register(FormField field, Validator validator, ErrorMessage errorMessage) {
-    return register(field.getFieldId(), validator, errorMessage);
+    return register(field.getViewId(), validator, errorMessage);
   }
 
   public Validators register(FieldValidator validator, ErrorMessage errorMessage) {
@@ -38,7 +38,7 @@ public class Validators {
     return this;
   }
 
-  public boolean validate(Activity activity, FormFieldData formFieldData) {
+  public boolean validate(Activity activity, FormData formFieldData) {
     boolean isValidForm = true;
     for (Integer fieldId : validatorListMap.keySet()) {
       boolean isValidField = validateField(activity, formFieldData, fieldId);
@@ -47,7 +47,7 @@ public class Validators {
     return isValidForm;
   }
 
-  private boolean validateField(Activity activity, FormFieldData formFieldData, int fieldId) {
+  private boolean validateField(Activity activity, FormData formFieldData, int fieldId) {
     boolean isValid = true;
     List<FieldValidatorWrapper> validatorList = validatorListMap.get(fieldId);
     for (FieldValidatorWrapper validator : validatorList) {
