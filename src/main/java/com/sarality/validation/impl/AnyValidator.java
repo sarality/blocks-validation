@@ -1,6 +1,6 @@
 package com.sarality.validation.impl;
 
-import com.sarality.form.FormFieldData;
+import com.sarality.form.FormData;
 import com.sarality.validation.Validator;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class AnyValidator implements Validator {
   }
 
   @Override
-  public boolean isValid(FormFieldData fieldData) {
+  public boolean isValid(FormData fieldData) {
     for (Validator validator : validatorList) {
       if (validator.isValid(fieldData)) {
         return true;
