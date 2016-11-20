@@ -1,5 +1,7 @@
 package com.sarality.validation;
 
+import com.sarality.form.FormField;
+
 /**
  * Interface for all Validators that operate on the data in a Field.
  *
@@ -7,5 +9,5 @@ package com.sarality.validation;
  */
 public interface FieldValidator extends Validator {
 
-  int getFieldId();
+  FormField getField();
 }

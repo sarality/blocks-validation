@@ -19,37 +19,37 @@ import java.util.Map;
  */
 public class Validators {
 
-  private final Map<Integer, List<FieldValidatorWrapper>> validatorListMap = new HashMap<>();
+  private final Map<String, List<FieldValidatorWrapper>> validatorListMap = new HashMap<>();
 
   public Validators register(FormField field, Validator validator, ErrorMessage errorMessage) {
-    return register(field.getViewId(), validator, errorMessage);
+    return register(field.getName(), validator, errorMessage);
   }
 
   public Validators register(FieldValidator validator, ErrorMessage errorMessage) {
-    return register(validator.getFieldId(), validator, errorMessage);
+    return register(validator.getField(), validator, errorMessage);
   }
 
-  private Validators register(int fieldId, Validator validator, ErrorMessage errorMessage) {
-    if (!validatorListMap.containsKey(fieldId)) {
-      validatorListMap.put(fieldId, new ArrayList<FieldValidatorWrapper>());
+  private Validators register(String fieldName, Validator validator, ErrorMessage errorMessage) {
+    if (!validatorListMap.containsKey(fieldName)) {
+      validatorListMap.put(fieldName, new ArrayList<FieldValidatorWrapper>());
     }
-    List<FieldValidatorWrapper> validatorList = validatorListMap.get(fieldId);
-    validatorList.add(new FieldValidatorWrapper(fieldId, validator, errorMessage));
+    List<FieldValidatorWrapper> validatorList = validatorListMap.get(fieldName);
+    validatorList.add(new FieldValidatorWrapper(validator, errorMessage));
     return this;
   }
 
   public boolean validate(Activity activity, FormData formFieldData) {
     boolean isValidForm = true;
-    for (Integer fieldId : validatorListMap.keySet()) {
-      boolean isValidField = validateField(activity, formFieldData, fieldId);
+    for (String fieldName : validatorListMap.keySet()) {
+      boolean isValidField = validateField(activity, formFieldData, fieldName);
       isValidForm = isValidForm & isValidField;
     }
     return isValidForm;
   }
 
-  private boolean validateField(Activity activity, FormData formFieldData, int fieldId) {
+  private boolean validateField(Activity activity, FormData formFieldData, String fieldName) {
     boolean isValid = true;
-    List<FieldValidatorWrapper> validatorList = validatorListMap.get(fieldId);
+    List<FieldValidatorWrapper> validatorList = validatorListMap.get(fieldName);
     for (FieldValidatorWrapper validator : validatorList) {
       if (!validator.getValidator().isValid(formFieldData)) {
         isValid = false;

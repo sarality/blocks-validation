@@ -13,24 +13,21 @@ import com.sarality.validation.FieldValidator;
  */
 public class EmailFormatValidator implements FieldValidator {
 
-  private final int fieldId;
+  private final FormField field;
 
-  public EmailFormatValidator(int fieldId) {
-    this.fieldId = fieldId;
-  }
 
   public EmailFormatValidator(FormField field) {
-    this(field.getViewId());
+    this.field = field;
   }
 
   @Override
   public boolean isValid(FormData fieldData) {
-    String email = fieldData.getString(fieldId);
+    String email = fieldData.getString(field);
     return TextUtils.isEmpty(email) || android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
   }
 
   @Override
-  public int getFieldId() {
-    return fieldId;
+  public FormField getField() {
+    return field;
   }
 }
