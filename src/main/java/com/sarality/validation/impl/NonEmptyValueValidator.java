@@ -13,24 +13,21 @@ import com.sarality.validation.FieldValidator;
  */
 public class NonEmptyValueValidator implements FieldValidator {
 
-  private final int fieldId;
+  private final FormField field;
 
-  public NonEmptyValueValidator(int fieldId) {
-    this.fieldId = fieldId;
-  }
 
   public NonEmptyValueValidator(FormField field) {
-    this(field.getViewId());
+    this.field = field;
   }
 
   @Override
   public boolean isValid(FormData fieldData) {
-    String value = fieldData.getString(fieldId);
+    String value = fieldData.getString(field);
     return !TextUtils.isEmpty(value);
   }
 
   @Override
-  public int getFieldId() {
-    return fieldId;
+  public FormField getField() {
+    return field;
   }
 }

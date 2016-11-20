@@ -9,18 +9,12 @@ import com.sarality.validation.error.ErrorMessage;
  * @author abhideep@ (Abhideep Singh)
  */
 class FieldValidatorWrapper {
-  private final int fieldId;
   private final Validator validator;
   private final ErrorMessage errorMessage;
 
-  FieldValidatorWrapper(int fieldId, Validator validator, ErrorMessage errorMessage) {
-    this.fieldId = fieldId;
+  FieldValidatorWrapper(Validator validator, ErrorMessage errorMessage) {
     this.validator = validator;
     this.errorMessage = errorMessage;
-  }
-
-  int getFieldId() {
-    return fieldId;
   }
 
   Validator getValidator() {
