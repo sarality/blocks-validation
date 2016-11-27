@@ -7,5 +7,6 @@ package com.sarality.validation.error;
  */
 public enum ErrorRendererType {
   TEXT_INPUT_LAYOUT, // The error is displayed in an enclosing TextInputLayout
-  EDIT_TEXT // The error is displayed in the Edit Text itself
+  EDIT_TEXT, // The error is displayed in the Edit Text itself
+  TEXT_VIEW, // The error is displayed in the Drop Down
 }
