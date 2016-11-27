@@ -32,6 +32,8 @@ public class ErrorMessage {
       return new TextInputErrorRenderer(errorRendererFieldId);
     } else if (ErrorRendererType.EDIT_TEXT.equals(errorRendererType)) {
       return new EditTextErrorRender(errorRendererFieldId);
+    } else if (ErrorRendererType.TEXT_VIEW.equals(errorRendererType)) {
+      return new TextViewErrorRender(errorRendererFieldId);
     }
     throw new IllegalArgumentException("Error Renderer not supported for type " + errorRendererType);
   }
