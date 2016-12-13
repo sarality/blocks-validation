@@ -23,11 +23,16 @@ public class NonEmptyValueValidator implements FieldValidator {
   @Override
   public boolean isValid(FormData fieldData) {
     String value = fieldData.getString(field);
-    return !TextUtils.isEmpty(value);
+    return isValid(value);
   }
 
   @Override
   public FormField getField() {
     return field;
+  }
+
+  @Override
+  public boolean isValid(String value) {
+    return !TextUtils.isEmpty(value);
   }
 }

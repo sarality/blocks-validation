@@ -10,4 +10,7 @@ import com.sarality.form.FormField;
 public interface FieldValidator extends Validator {
 
   FormField getField();
+
+  // TODO(abhideep): Move this to a non Form Field Based Validator
+  boolean isValid(String value);
 }

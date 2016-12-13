@@ -34,6 +34,16 @@ public class PhoneNumberValidator implements FieldValidator {
   @Override
   public boolean isValid(FormData fieldData) {
     String phoneNumber = fieldData.getString(field);
+    return isValid(phoneNumber);
+  }
+
+  @Override
+  public FormField getField() {
+    return field;
+  }
+
+  @Override
+  public boolean isValid(String phoneNumber) {
     if (TextUtils.isEmpty(phoneNumber)) {
       return true;
     }
@@ -51,10 +61,4 @@ public class PhoneNumberValidator implements FieldValidator {
     }
     return false;
   }
-
-  @Override
-  public FormField getField() {
-    return field;
-  }
-
 }

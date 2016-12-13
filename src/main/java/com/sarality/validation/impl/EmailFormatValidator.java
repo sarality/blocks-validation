@@ -15,7 +15,6 @@ public class EmailFormatValidator implements FieldValidator {
 
   private final FormField field;
 
-
   public EmailFormatValidator(FormField field) {
     this.field = field;
   }
@@ -23,11 +22,16 @@ public class EmailFormatValidator implements FieldValidator {
   @Override
   public boolean isValid(FormData fieldData) {
     String email = fieldData.getString(field);
-    return TextUtils.isEmpty(email) || android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    return isValid(email);
   }
 
   @Override
   public FormField getField() {
     return field;
+  }
+
+  @Override
+  public boolean isValid(String email) {
+    return TextUtils.isEmpty(email) || android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
   }
 }
