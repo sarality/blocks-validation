@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.sarality.form.FormData;
 import com.sarality.form.FormField;
+import com.sarality.sanitize.impl.PhoneNumberSanitizer;
 import com.sarality.validation.FieldValidator;
 
 import org.slf4j.Logger;
@@ -25,10 +26,13 @@ public class PhoneNumberValidator implements FieldValidator {
 
   private final FormField field;
   private final PhoneNumberFormat format;
+  private final PhoneNumberSanitizer sanitizer;
+  private String sanitizedValue;
 
   public PhoneNumberValidator(FormField field, PhoneNumberFormat format) {
     this.field = field;
     this.format = format;
+    this.sanitizer = new PhoneNumberSanitizer(format);
   }
 
   @Override
@@ -37,19 +41,27 @@ public class PhoneNumberValidator implements FieldValidator {
     return isValid(phoneNumber);
   }
 
+  public String getSanitizedValue() {
+    return sanitizedValue;
+  }
+
   @Override
   public FormField getField() {
     return field;
   }
 
   @Override
-  public boolean isValid(String phoneNumber) {
-    if (TextUtils.isEmpty(phoneNumber)) {
+  public boolean isValid(String phoneNumberValue) {
+    if (TextUtils.isEmpty(phoneNumberValue)) {
+      sanitizedValue = phoneNumberValue;
       return true;
     }
 
+    String phoneNumber = sanitizer.sanitize(phoneNumberValue);
+
     Matcher matcher = PHONE_PATTERN.matcher(phoneNumber);
     if (matcher.matches()) {
+      sanitizedValue = phoneNumber;
       String countryCode = matcher.group(1);
       String number = matcher.group(2);
       int numberLength = number.length();
