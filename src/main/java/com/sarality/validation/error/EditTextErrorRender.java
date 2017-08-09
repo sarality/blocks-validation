@@ -1,6 +1,7 @@
 package com.sarality.validation.error;
 
 import android.app.Activity;
+import android.view.View;
 import android.widget.EditText;
 
 /**
@@ -21,8 +22,13 @@ public class EditTextErrorRender implements ErrorRenderer {
 
   @Override
   public void init(Activity activity) {
+    init(activity, null);
+  }
+
+  @Override
+  public void init(Activity activity, View contextView) {
     if (!isInitialized) {
-      field = (EditText) activity.findViewById(fieldId);
+      field = (EditText) (contextView == null ? activity.findViewById(fieldId) : contextView.findViewById(fieldId));
       isInitialized = true;
     }
   }

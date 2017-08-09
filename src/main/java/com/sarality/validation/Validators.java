@@ -1,10 +1,11 @@
 package com.sarality.validation;
 
 import android.app.Activity;
+import android.view.View;
 
 import com.sarality.error.ErrorCode;
-import com.sarality.form.FormField;
 import com.sarality.form.FormData;
+import com.sarality.form.FormField;
 import com.sarality.validation.error.ErrorMessage;
 import com.sarality.validation.error.ErrorRenderer;
 
@@ -48,22 +49,26 @@ public class Validators {
     return this;
   }
 
-  public boolean validate(Activity activity, FormData formFieldData) {
+  public boolean validate(Activity activity, View contextView, FormData formFieldData) {
     boolean isValidForm = true;
     for (String fieldName : validatorListMap.keySet()) {
-      boolean isValidField = validateField(activity, formFieldData, fieldName);
+      boolean isValidField = validateField(activity, contextView, formFieldData, fieldName);
       isValidForm = isValidForm & isValidField;
     }
     return isValidForm;
   }
 
-  public boolean processErrors(Activity activity, List<ErrorCode> errorCodes) {
+  public boolean validate(Activity activity, FormData formFieldData) {
+    return validate(activity, null, formFieldData);
+  }
+
+  public boolean processErrors(Activity activity, View contextView, List<ErrorCode> errorCodes) {
     if (errorCodes != null && !errorCodes.isEmpty()) {
       for (ErrorCode errorCode : errorCodes) {
-        List<ErrorMessage> messages  = errorMessageMap.get(errorCode);
+        List<ErrorMessage> messages = errorMessageMap.get(errorCode);
         if (messages != null && !messages.isEmpty()) {
           for (ErrorMessage message : messages) {
-            displayError(activity, message);
+            displayError(activity, contextView, message);
           }
         } else {
           throw new RuntimeException("Error Code " + errorCode.getCode() + " cannot be displayed");
@@ -74,29 +79,33 @@ public class Validators {
     return true;
   }
 
-  private boolean validateField(Activity activity, FormData formFieldData, String fieldName) {
+  public boolean processErrors(Activity activity, List<ErrorCode> errorCodes) {
+    return processErrors(activity, null, errorCodes);
+  }
+
+  private boolean validateField(Activity activity, View contextView, FormData formFieldData, String fieldName) {
     boolean isValid = true;
     List<FieldValidatorWrapper> validatorList = validatorListMap.get(fieldName);
     for (FieldValidatorWrapper validator : validatorList) {
       if (!validator.getValidator().isValid(formFieldData)) {
         isValid = false;
-        displayError(activity, validator.getErrorMessage());
+        displayError(activity, contextView, validator.getErrorMessage());
         break;
       } else {
-        resetError(activity, validator.getErrorMessage().getErrorRenderer());
+        resetError(activity, contextView, validator.getErrorMessage().getErrorRenderer());
       }
     }
     return isValid;
   }
 
-  private void resetError(Activity activity, ErrorRenderer renderer) {
-    renderer.init(activity);
+  private void resetError(Activity activity, View contextView, ErrorRenderer renderer) {
+    renderer.init(activity, contextView);
     renderer.resetError(activity);
   }
 
-  private void displayError(Activity activity, ErrorMessage errorMessage) {
+  private void displayError(Activity activity, View contextView, ErrorMessage errorMessage) {
     ErrorRenderer renderer = errorMessage.getErrorRenderer();
-    renderer.init(activity);
+    renderer.init(activity, contextView);
     renderer.displayError(activity, errorMessage.getMessageResourceId());
   }
 }
