@@ -25,6 +25,12 @@ public class TextInputErrorRenderer implements ErrorRenderer {
   }
 
   @Override
+  public void init(Activity activity, View contextView) {
+    layout = (TextInputLayout) (contextView == null ? activity.findViewById(layoutId) :
+        contextView.findViewById(layoutId));
+  }
+
+  @Override
   public void displayError(Activity activity, int messageResourceId) {
     layout.setError(activity.getString(messageResourceId));
   }

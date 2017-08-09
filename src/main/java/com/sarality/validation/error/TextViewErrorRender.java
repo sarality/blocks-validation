@@ -24,10 +24,16 @@ public class TextViewErrorRender implements ErrorRenderer {
 
   @Override
   public void init(Activity activity) {
+    init(activity, null);
+  }
+
+  @Override
+  public void init(Activity activity, View contextView) {
     if (!isInitialized) {
-      field = (TextView) activity.findViewById(fieldId);
+      field = (TextView) (contextView == null ? activity.findViewById(fieldId) : contextView.findViewById(fieldId));
       isInitialized = true;
     }
+
   }
 
   @Override
