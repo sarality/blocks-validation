@@ -22,7 +22,7 @@ public class NonEmptyValueValidator implements FieldValidator {
 
   @Override
   public boolean isValid(FormData fieldData) {
-    String value = fieldData.getString(field);
+    String value = fieldData.getString(field, true);
     return isValid(value);
   }
 
