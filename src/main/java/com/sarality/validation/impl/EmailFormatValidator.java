@@ -2,9 +2,11 @@ package com.sarality.validation.impl;
 
 import android.text.TextUtils;
 
-import com.sarality.form.FormField;
 import com.sarality.form.FormData;
+import com.sarality.form.FormField;
 import com.sarality.validation.FieldValidator;
+
+import org.apache.commons.validator.routines.EmailValidator;
 
 /**
  * A Validator that checks if the field value is a valid email address
@@ -14,6 +16,7 @@ import com.sarality.validation.FieldValidator;
 public class EmailFormatValidator implements FieldValidator {
 
   private final FormField field;
+  private final EmailValidator emailValidator = EmailValidator.getInstance(false, false);
 
   public EmailFormatValidator(FormField field) {
     this.field = field;
@@ -32,6 +35,8 @@ public class EmailFormatValidator implements FieldValidator {
 
   @Override
   public boolean isValid(String email) {
-    return TextUtils.isEmpty(email) || android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    // We no longer use android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() to keep things in sync
+    // with the API server
+    return TextUtils.isEmpty(email) || emailValidator.isValid(email);
   }
 }
