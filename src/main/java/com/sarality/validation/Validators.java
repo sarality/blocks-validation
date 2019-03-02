@@ -98,6 +98,14 @@ public class Validators {
     return isValid;
   }
 
+  public void resetAll(Activity activity, View contextView) {
+    for (List<ErrorMessage> messages : errorMessageMap.values()) {
+      for (ErrorMessage message : messages) {
+        resetError(activity, contextView, message.getErrorRenderer());
+      }
+    }
+  }
+
   private void resetError(Activity activity, View contextView, ErrorRenderer renderer) {
     renderer.init(activity, contextView);
     renderer.resetError(activity);
