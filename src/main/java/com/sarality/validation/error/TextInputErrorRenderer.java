@@ -1,7 +1,7 @@
 package com.sarality.validation.error;
 
 import android.app.Activity;
-import android.support.design.widget.TextInputLayout;
+import com.google.android.material.textfield.TextInputLayout;
 import android.view.View;
 
 /**
